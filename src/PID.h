@@ -14,7 +14,7 @@ public:
   double i_error;
   double d_error;
 
-  double pre_cte;
+  double pre_cte;              // previous cte
   /*
   * Coefficients
   */ 
@@ -22,14 +22,14 @@ public:
   double Ki;
   double Kd;
 
-  vector<double> p;
-  vector<double> dp;
-
-  bool twiddle_tf;
-  double err, best_err;
-  int index;
-  int cnt;
-  int cnt_bar;
+  vector<double> p;            // parameters in array
+  vector<double> dp;           // parameters optimization coefficient
+ 
+  bool twiddle_tf;             // whether do twiddling
+  double err, best_err;        // error coefficients for twiddling
+  int index;                   // parameter index in twiddling
+  int cnt;                     // cte input counter
+  int cnt_bar;                 // counter bar for each cycle
   /*
   * Constructor
   */
@@ -43,7 +43,7 @@ public:
   /*
   * Initialize PID.
   */
-  void Init(double Kp, double Ki, double Kd, bool tw_tf);
+  void Init(double Kp, double Ki, double Kd, bool tw_tf, vector<double> dp);
 
   /*
   * Update the PID error variables given cross track error.
@@ -55,6 +55,9 @@ public:
   */
   double TotalError();
 
+  /*
+   * Parameters Optimization
+   */ 
   void twiddle();
 };
 

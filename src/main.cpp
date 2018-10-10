@@ -34,11 +34,22 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  double Kp_initial = 0.1;
-  double Ki_initial = 1.0e-4;
-  double Kd_initial = 1.0;
-  bool twiddle_tf = true;
-  pid.Init(Kp_initial, Ki_initial, Kd_initial, twiddle_tf);
+  double Kp_initial = 0.169;
+  double Ki_initial = 3.85e-4;
+  double Kd_initial = 1.47;
+  vector<double> dp(3);                  // Optimization coefficients 
+
+  bool twiddle_tf = false;
+  if (twiddle_tf) {
+      Kp_initial = 0.1;
+      Ki_initial = 1.0e-4;
+      Kd_initial = 1.0;
+      dp[0] = 0.01;
+      dp[1] = 5.0e-5;
+      dp[2] = 0.1;
+  }
+  
+  pid.Init(Kp_initial, Ki_initial, Kd_initial, twiddle_tf, dp);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
